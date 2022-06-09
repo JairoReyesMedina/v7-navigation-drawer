@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1,maximum-scale=1'>
+
+    <script src="v7-swipe-menu.js"></script>
+
+</head>
+
+<body>
+
+
+    <v7-navigation-drawer>
+        hola
+
+    </v7-navigation-drawer>
+
+    <button onclick="alert()">Hello Word</button>
+
+</body>
+
+
+</html>
+
+<style>
+    v7-navigation-drawer {
+        user-select: none;
+        width: 80%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        position: absolute;
+        background: #00f;
+        --v7-align: left;
+    }
+    
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    
+    body {
+        background: #ccc;
+        overscroll-behavior-x: none;
+        overflow: hidden;
+    }
+    
+    ul {
+        width: 100%;
+        height: 100%;
+        background: #cc0;
+        display: block;
+        position: absolute;
+    }
+    
+    li:nth-child(even) {
+        list-style: circle;
+        user-select: none;
+        width: 100px;
+    }
+    
+    [v7="btn-desing"] {
+        --initial-background-effect: no;
+        --preserve-effect: no;
+        --init-opacity-effect: 0;
+        --text-color-effect: #fff;
+        --transition-effect: ease 0.5s;
+        --background-effect: rgba(0, 0, 0, 0.5);
+        background: #f00;
+    }
+    
+    [v7="btn-desing2"] {
+        --initial-background-effect: no;
+        --preserve-effect: no;
+        --init-opacity-effect: 0;
+        --text-color-effect: #fff;
+        --transition-effect: ease 0.5s;
+        --background-effect: rgba(0, 0, 0, 0.5);
+        background: #00f;
+    }
+</style>
+
+
+<script>
+    Array.prototype.slice.call(document.styleSheets).forEach((e, i, a) => {
+        Array.prototype.slice.call(e.cssRules).forEach((e, i, a) => {
+            if (e.selectorText.split("=")[0].replace("[", "").toLowerCase() == "v7") {
+                let style = e.style;
+
+                document.querySelectorAll(e.selectorText).forEach((e, i, a) => {
+                    let btn = e;
+                    btn.setAttribute("oncontextmenu", false)
+                    let span_conent = document.createElement("div")
+
+
+
+                    let display = style.display;
+                    let justifyContent = style['justify-content'];
+                    let alignContent = style['align-content'];
+                    let alignItems = style['align-items'];
+
+                    if (style.position == "") {
+                        style.position = "relative"
+                    }
+
+                    if (style.color == "") {
+                        style.color = "#000000"
+                    }
+
+                    if (display == "") {
+                        display = "flex"
+                    }
+                    if (justifyContent == "") {
+                        justifyContent = "center"
+                    }
+                    if (alignContent == "") {
+                        alignContent = "center"
+                    }
+                    if (alignItems == "") {
+                        alignItems = "center"
+                    }
+
+                    let backgroundEffect = "rgba(0,0,0,0.2)"
+
+                    if (window.getComputedStyle(btn).getPropertyValue('--background-effect') != "") {
+                        backgroundEffect = window.getComputedStyle(btn).getPropertyValue('--background-effect')
+                    }
+
+                    let transitionEffect = "rgba(0,0,0,0.2)"
+
+                    if (window.getComputedStyle(btn).getPropertyValue('--transition-effect') != "") {
+                        transitionEffect = window.getComputedStyle(btn).getPropertyValue('--transition-effect')
+                    }
+
+                    let opacityEffect = "rgba(0,0,0,0.2)"
+
+                    if (window.getComputedStyle(btn).getPropertyValue('--init-opacity-effect') != "") {
+                        opacityEffect = window.getComputedStyle(btn).getPropertyValue('--init-opacity-effect')
+                    }
+
+                    let preserveEffect = "no"
+                    if (window.getComputedStyle(btn).getPropertyValue('--preserve-effect') != "") {
+                        preserveEffect = window.getComputedStyle(btn).getPropertyValue('--preserve-effect')
+                    }
+
+                    let initialBackgroundEffect = "yes"
+                    if (window.getComputedStyle(btn).getPropertyValue('--initial-background-effect') != "") {
+                        initialBackgroundEffect = window.getComputedStyle(btn).getPropertyValue('--initial-background-effect')
+
+                    }
+
+                    btn.style.display = display;
+
+                    let inner = e.innerHTML
+                    e.innerHTML = ""
+                    span_conent.innerHTML = inner
+
+                    span_conent.style = `
+                    width:100%;height:100%;position:relative;
+                    z-index:2;left:0px;top:0px;background:none;
+                    display:${display};
+        justify-content:${justifyContent};
+        align-items:${alignItems};
+        align-content:${alignContent};
+                    `
+
+                    e.appendChild(span_conent)
+
+
+
+                    let span = document.createElement("div")
+
+                    if (style.position == "") {
+                        style.position = "relative"
+                    }
+
+
+                    span.style = `
+                    width:100%;height:100%;
+                    display:block;position:absolute;
+                    z-index:1;left:0px;top:0px;
+                    `
+                    e.appendChild(span)
+                    e.style.overflow = 'hidden'
+
+                    let back, btnTextColor;
+
+                    if ('ontouchstart' in document) {
+                        btn.ontouchend = dejar;
+                        btn.ontouchleave = dejar;
+                        btn.ontouchstart = entrar;
+                    } else {
+                        btn.onpointerup = dejar;
+                        btn.onpointerleave = dejar;
+
+                        btn.onpointerdown = entrar;
+                    }
+                    if (initialBackgroundEffect.toLowerCase().trim() == "yes") {
+                        initialBackgroundEffectFunction()
+                    }
+
+
+                    function initialBackgroundEffectFunction() {
+
+                        back = document.createElement("div")
+                        back.id = "x0backs-sgwu-p"
+                        back.style = `
+                        width:100%;height:100%;
+                        display:block;position:absolute;
+                        z-index:1;left:${0}px;top:${0}px;
+                        background:${backgroundEffect};
+                        transition:${transitionEffect};
+                        border-radius:0%;opacity:1;};
+                        `
+                        btn.style.transition = transitionEffect
+
+                        span.appendChild(back)
+                    }
+
+
+
+                    function entrar() {
+                        let ev;
+                        event.preventDefault();
+                        if ('ontouchstart' in document) {
+                            ev = {
+                                offsetX: event.changedTouches[0].clientX,
+                                offsetY: event.changedTouches[0].clientY
+                            }
+                        } else {
+                            ev = {
+                                offsetX: event.clientX,
+                                offsetY: event.clientY
+                            }
+                        }
+                        try {
+                            btn.querySelector("#x0backs-sgwu-p").remove()
+                        } catch (error) {}
+                        back = document.createElement("div")
+                        back.id = "x0backs-sgwu-p"
+
+
+
+
+                        back.style = `
+                        width:0%;height:0%;
+                        display:block;position:absolute;
+                        z-index:1;left:${ev.offsetX}px;top:${ev.offsetY}px;
+                        background:${backgroundEffect};
+                        transition:${transitionEffect};
+                        border-radius:100%;opacity:${opacityEffect};
+                        `
+                        btn.style.transition = transitionEffect
+
+                        span.appendChild(back)
+
+                        setTimeout(() => {
+                            btnTextColor = style.color;
+                            try {
+                                btn.style.color = window.getComputedStyle(btn).getPropertyValue('--text-color-effect');
+
+                            } catch (error) {
+
+                            }
+
+                            if (btn.clientWidth > btn.clientHeight) {
+                                let factor = btn.clientWidth * 2
+                                back.style.width = `${factor}px`
+                                back.style.height = `${factor}px`
+                                back.style.left = `-${factor/4}px`
+                                back.style.top = `-${factor/4}px`
+                                back.style.opacity = `1`
+                            } else {
+                                let factor = btn.clientHeight * 2
+                                back.style.width = `${factor}px`
+                                back.style.height = `${factor}px`
+                                back.style.left = `-${factor/4}px`
+                                back.style.top = `-${factor/4}px`
+                                back.style.opacity = `1`
+                            }
+
+                        }, 0);
+                    }
+
+
+
+
+                    let inclear = null;
+
+
+                    function dejar() {
+                        try {
+                            event.preventDefault()
+                            if (preserveEffect.toLowerCase().trim() == "yes") {
+                                return;
+                            } else {
+                                let ev;
+                                if ('ontouchstart' in document) {
+                                    ev = {
+                                        offsetX: event.changedTouches[0].clientX,
+                                        offsetY: event.changedTouches[0].clientY
+                                    }
+                                } else {
+                                    ev = {
+                                        offsetX: event.clientX,
+                                        offsetY: event.clientY
+                                    }
+                                }
+
+                                let time = parseFloat(/\d(.*)(?=s)/gim.exec(transitionEffect)[0])
+
+
+
+
+                                if (btn.clientWidth > btn.clientHeight) {
+                                    let factor = btn.clientWidth * 2
+                                    back.style.width = `${factor}px`
+                                    back.style.height = `${factor}px`
+                                    back.style.left = `-${factor/4}px`
+                                    back.style.top = `-${factor/4}px`
+                                    back.style.opacity = `0`
+                                } else {
+                                    let factor = btn.clientHeight * 2
+                                    back.style.width = `${factor}px`
+                                    back.style.height = `${factor}px`
+                                    back.style.left = `-${factor/4}px`
+                                    back.style.top = `-${factor/4}px`
+                                    back.style.opacity = `0`
+                                }
+
+                                btn.style.color = btnTextColor;
+
+
+                                if (inclear != null) {
+                                    clearTimeout(inclear)
+                                }
+                                inclear = setTimeout(() => {
+                                    back.remove()
+                                    btn.style.transition = "ease 0s"
+                                    clearTimeout(inclear)
+                                }, ((time) * 1000));
+                            }
+                        } catch (error) {
+
+                        }
+                    }
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+        });
+    });
+</script>
